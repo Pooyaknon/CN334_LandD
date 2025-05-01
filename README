@@ -6,27 +6,22 @@ How to run this app
 python manage.py runserver
 
 Structures
-LandD/                           : Django Project Folder
-    LandD/urls.py                : Include all app URLs
-    LandD/templates              
-        LandD/templates/index.html                      : Homepage UI
-
-user_service/                    : for login/logout/register
-    user_service/templates              
-        user_service/templates/login.html               : login UI
-        user_service/templates/register.html            : register UI
-
-user_management/                 : Admin-only user management
-
-product_management/              : Lands, promotions, categories, images
-    product_management/templates
-        product_management/templates/land_list.html     : All land UI
-        product_management/templates/land_detail.html   : Land detail UI
-
 cart/                            : Manage user carts
     cart/model.py                : Cart, CartItem
     cart/templates
         cart/templates/cart.html                        : Cart UI
+        
+frontend/                             
+    app/
+        product/                      : This is an example for create UI of function
+            product/byId
+            product/all.js            : Show all products
+                product/byId/[id].js  : Show product by id
+
+LandD/                           : Django Project Folder
+    LandD/urls.py                : Include all app URLs
+    LandD/templates              
+        LandD/templates/index.html                      : Homepage UI
 
 order/                           : Orders, payments, delivery
     order/models.py              : Order, OrderItem, PaymentMethod, DeliveryMethod
@@ -34,9 +29,12 @@ order/                           : Orders, payments, delivery
         order/templates/order_confirm.html              : Confirm order UI
         order/templates/order_success.html              : Order success UI
 
-static/                          : Frontend asset (CSS, JS)
+product_management/              : Lands, promotions, categories, images
+
+user_service/                    : for login/logout/register
+    
+user_management/                 : Admin-only user management
 
 media/                           : Static/media image upload folder
-
 
 manage.py                        : migrate, runserver
