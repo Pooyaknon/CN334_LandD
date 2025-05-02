@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class LandType(models.Model):
     type_name = models.CharField(max_length=50)
 
@@ -38,7 +37,7 @@ class Land(models.Model):
         return self.title
 
 class LandImage(models.Model):
-    land = models.ForeignKey(Land, on_delete=models.CASCADE, related_name='images')
+    land = models.ForeignKey(Land, related_name='images', on_delete=models.CASCADE)
     image_url = models.CharField(max_length=255)
 
     def __str__(self):

@@ -1,11 +1,23 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Land
+from rest_framework import viewsets
+from .models import Land, LandType, Category, Promotion, LandImage
+from .serializers import LandSerializer, LandTypeSerializer, CategorySerializer, PromotionSerializer, LandImageSerializer
 
-# Create your views here.
-def all_products(request):
-    lands = Land.objects.filter(is_sold=False).order_by('-created_at')
-    return render(request, 'product_management/land_list.html', {'lands': lands})
+class LandViewSet(viewsets.ModelViewSet):
+    queryset = Land.objects.all().order_by('-created_at')
+    serializer_class = LandSerializer
 
-def product_by_id(request, id):
-    land = get_object_or_404(Land, id=id)
-    return render(request, 'product_management/land_detail.html', {'land': land})
+class LandTypeViewSet(viewsets.ModelViewSet):
+    queryset = LandType.objects.all()
+    serializer_class = LandTypeSerializer
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class PromotionViewSet(viewsets.ModelViewSet):
+    queryset = Promotion.objects.all()
+    serializer_class = PromotionSerializer
+
+class LandImageViewSet(viewsets.ModelViewSet):
+    queryset = LandImage.objects.all()
+    serializer_class = LandImageSerializer
