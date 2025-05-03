@@ -22,6 +22,15 @@ class Promotion(models.Model):
         return self.name
 
 class Land(models.Model):
+    REGION_CHOICES = [
+      ('north', 'ภาคเหนือ'),
+      ('central', 'ภาคกลาง'),
+      ('northeast', 'ภาคตะวันออกเฉียงเหนือ'),
+      ('east', 'ภาคตะวันออก'),
+      ('west', 'ภาคตะวันตก'),
+      ('south', 'ภาคใต้'),
+    ]
+
     title = models.CharField(max_length=200)
     description = models.TextField()
     location = models.CharField(max_length=200)
@@ -29,7 +38,7 @@ class Land(models.Model):
     size = models.FloatField()
     is_sold = models.BooleanField(default=False)
     land_type = models.ForeignKey(LandType, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=20, choices=REGION_CHOICES, blank=False,null=False)
     promotion = models.ForeignKey(Promotion, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
