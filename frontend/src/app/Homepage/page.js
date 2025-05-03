@@ -69,7 +69,7 @@ function Section({ title, lands }) {
                 </div>
                 <p className="text-base text-gray-700">จังหวัด: {item.location}</p>
                 <p className="text-base font-semibold text-gray-900">
-                  ราคา: ฿{parseFloat(item.price).toLocaleString()}
+                  ราคา: {parseFloat(item.price).toLocaleString()} บาท
                 </p>
               </div>
             ))

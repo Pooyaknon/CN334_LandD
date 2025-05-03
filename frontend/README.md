@@ -3,6 +3,9 @@ git add .
 git commit -m "cate edit"
 git push origin Kreemja
 
+เข้าเว็บ
+http://localhost:3001/Homepage
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

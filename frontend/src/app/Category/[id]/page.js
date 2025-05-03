@@ -44,7 +44,7 @@ function Navbar({ activeCategoryId }) {
 // การ์ดที่ดิน
 function LandCard({ land }) {
   return (
-    <div className="bg-white rounded-2xl p-6 w-72 shadow-lg text-center">
+    <div className="bg-white rounded-2xl p-6 w-70 h-100 flex-shrink-0 shadow-lg text-center">
       <div className="bg-black h-60 w-full rounded mb-4 overflow-hidden">
         {land.images?.[0]?.image_url ? (
           <img
@@ -58,7 +58,7 @@ function LandCard({ land }) {
       </div>
       <p className="text-base text-gray-700">จังหวัด: {land.location}</p>
       <p className="text-base font-semibold text-gray-900">
-        ราคา: ฿{parseFloat(land.price).toLocaleString()}
+        ราคา: {parseFloat(land.price).toLocaleString()} บาท
       </p>
     </div>
   );
