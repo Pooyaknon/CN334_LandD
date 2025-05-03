@@ -11,26 +11,38 @@
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 
 // Top
 function Navbar() {
+  const [categories, setCategories] = useState([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/categories/')
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(err => console.error("Error loading categories:", err));
+  }, []);
+
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      {/* โลโก้ */}
       <div className="text-2xl font-bold tracking-wide">Land :D</div>
 
-      {/* หมวดหมู่ */}
+      {/* ดึงหมวดหมู่จาก API */}
       <ul className="hidden md:flex gap-6 text-sm">
-        <li className="cursor-pointer hover:text-yellow-400">ภาคเหนือ</li>
-        <li className="cursor-pointer hover:text-yellow-400">ภาคกลาง</li>
-        <li className="cursor-pointer hover:text-yellow-400">ภาคตะวันออกเฉียงเหนือ</li>
-        <li className="cursor-pointer hover:text-yellow-400">ภาคตะวันออก</li>
-        <li className="cursor-pointer hover:text-yellow-400">ภาคตะวันตก</li>
-        <li className="cursor-pointer hover:text-yellow-400">ภาคใต้</li>
+        {categories.map(cat => (
+          <li
+            key={cat.id}
+            className="cursor-pointer hover:text-yellow-400"
+            onClick={() => router.push(`/category/${cat.id}`)}
+          >
+            {cat.name}
+          </li>
+        ))}
       </ul>
 
-      {/* ผู้ใช้งาน */}
       <div className="text-2xl">
         <FaUserCircle />
       </div>
@@ -97,7 +109,7 @@ export default function Home() {
       <Navbar />
       <div className="px-4 py-8 sm:px-12">
         <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
-          <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("ปทุม"))} />
+          <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("กรุงเทพ"))} />
           <Section title="ลดราคาสุดคุ้ม" lands={lands.filter(l => l.promotion !== null)} />
           <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
         </main>

@@ -6,8 +6,18 @@ class LandType(models.Model):
     def __str__(self):
         return self.type_name
 
+
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    CATEGORY_CHOICES = (
+        ('ภาคเหนือ', 'ภาคเหนือ'),
+        ('ภาคกลาง', 'ภาคกลาง'),
+        ('ภาคตะวันออกเฉียงเหนือ', 'ภาคตะวันออกเฉียงเหนือ'),
+        ('ภาคตะวันออก', 'ภาคตะวันออก'),
+        ('ภาคตะวันตก', 'ภาคตะวันตก'),
+        ('ภาคใต้', 'ภาคใต้'),
+        
+    )
+    name = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
 
     def __str__(self):
         return self.name
