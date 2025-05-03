@@ -86,10 +86,10 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/lands/")
+    fetch('http://localhost:8000/api/lands/')
       .then((res) => res.json())
       .then((data) => setLands(data))
-      .catch((err) => console.error("โหลดข้อมูลไม่สำเร็จ", err));
+      .catch((err) => console.error("Error fetching lands:", err));
   }, []);
 
   return (
@@ -97,14 +97,8 @@ export default function Home() {
       <Navbar />
       <div className="px-4 py-8 sm:px-12">
         <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
-          <Section
-            title="พื้นที่ใหม่ย่านกรุงเทพ"
-            lands={lands.filter((l) => l.location.includes("กรุงเทพ"))}
-          />
-          <Section
-            title="ลดราคาสุดคุ้ม"
-            lands={lands.filter((l) => l.promotion !== null)}
-          />
+          <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("ปทุม"))} />
+          <Section title="ลดราคาสุดคุ้ม" lands={lands.filter(l => l.promotion !== null)} />
           <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
         </main>
       </div>
