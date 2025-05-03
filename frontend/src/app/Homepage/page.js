@@ -28,10 +28,10 @@ function Navbar() {
 
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      <div className="text-2xl font-bold tracking-wide">Land :D</div>
+      <div className="text-4xl font-bold tracking-wide">Land :D</div>
 
       {/* ดึงหมวดหมู่จาก API */}
-      <ul className="hidden md:flex gap-6 text-sm">
+      <ul className="hidden md:flex gap-6 text-xl">
         {categories.map(cat => (
           <li
             key={cat.id}
@@ -43,7 +43,7 @@ function Navbar() {
         ))}
       </ul>
 
-      <div className="text-2xl">
+      <div className="text-4xl">
         <FaUserCircle />
       </div>
     </nav>
@@ -53,18 +53,18 @@ function Navbar() {
 //Data
 function Section({ title, lands }) {
   return (
-    <section className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
-      <div className="bg-[#5E6B77] rounded-3xl px-6 py-6 shadow">
-        <div className="flex gap-4 overflow-x-auto hide-scrollbar">
+    <section className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+      <div className="bg-[#5E6B77] rounded-3xl px-8 py-8 shadow-lg">
+        <div className="flex gap-6 overflow-x-auto hide-scrollbar">
           {lands.length > 0 ? (
             lands.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl p-4 w-40 flex-shrink-0 shadow-md text-center"
+                className="bg-white rounded-2xl p-6 w-52 flex-shrink-0 shadow-lg text-center"
               >
                 {/* รูปภาพจาก land.images */}
-                <div className="bg-black h-32 w-full rounded mb-3 overflow-hidden">
+                <div className="bg-black h-40 w-full rounded mb-4 overflow-hidden">
                   {item.images && item.images.length > 0 ? (
                     <img
                       src={item.images[0].image_url}
@@ -72,19 +72,19 @@ function Section({ title, lands }) {
                       className="w-full h-full object-cover rounded"
                     />
                   ) : (
-                    <div className="text-white text-sm">ไม่มีรูป</div>
+                    <div className="text-white text-base">ไม่มีรูป</div>
                   )}
                 </div>
-                <p className="text-sm text-gray-700">จังหวัด: {item.location}</p>
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-base text-gray-700">จังหวัด: {item.location}</p>
+                <p className="text-base font-semibold text-gray-900">
                   ราคา: ฿{parseFloat(item.price).toLocaleString()}
                 </p>
               </div>
             ))
           ) : (
-            <p className="text-white">ไม่มีสินค้า</p>
+            <p className="text-white text-lg">ไม่มีสินค้า</p>
           )}
-          <button className="bg-[#D4AF37] text-white w-10 h-10 rounded-full text-xl flex items-center justify-center self-center shrink-0">
+          <button className="bg-[#D4AF37] text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center self-center shrink-0">
             <FaArrowRight />
           </button>
         </div>
@@ -92,6 +92,7 @@ function Section({ title, lands }) {
     </section>
   );
 }
+
 
 //เพิ่ม list ตามสบาย
 export default function Home() {

@@ -1,6 +1,6 @@
 git checkout -b Kreemja
 git add .
-git commit -m "สรุปสิ่งที่คุณทำ"
+git commit -m "cate edit"
 git push origin Kreemja
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
