@@ -1,18 +1,10 @@
-// urlpatterns = [
-//   path('admin/', admin.site.urls),
-//   path('api/', include(router.urls)),
-//   path('api/register/', RegisterView.as_view(), name='register'),
-//   path('api/login/', login_view, name='login'),
-//   path('api/logout/', logout_view, name='logout'),
-//   path('api/user/', current_user, name='current_user'),
-// ]
+//app/Homepage/page.js
 
 'use client'
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-
 
 // Top
 function Navbar() {
@@ -28,7 +20,7 @@ function Navbar() {
 
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      <div className="text-4xl font-bold tracking-wide">Land :D</div>
+      <div className="text-4xl font-bold tracking-wide">Land:D</div>
 
       {/* ดึงหมวดหมู่จาก API */}
       <ul className="hidden md:flex gap-6 text-xl">
@@ -36,7 +28,7 @@ function Navbar() {
           <li
             key={cat.id}
             className="cursor-pointer hover:text-yellow-400"
-            onClick={() => router.push(`/category/${cat.id}`)}
+            onClick={() => router.push(`/Category/${cat.id}`)}
           >
             {cat.name}
           </li>
@@ -54,17 +46,17 @@ function Navbar() {
 function Section({ title, lands }) {
   return (
     <section className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
-      <div className="bg-[#5E6B77] rounded-3xl px-8 py-8 shadow-lg">
-        <div className="flex gap-6 overflow-x-auto hide-scrollbar">
+      <h2 className="text-3xl font-bold font-section-title text-gray-800">{title}</h2>
+      <div className="bg-[#5E6B77] rounded-3xl px-10 py-10 shadow-lg">
+        <div className="flex gap-8 overflow-x-auto hide-scrollbar">
           {lands.length > 0 ? (
             lands.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl p-6 w-52 flex-shrink-0 shadow-lg text-center"
+                className="bg-white rounded-2xl p-6 w-70 h-100 flex-shrink-0 shadow-lg text-center"
               >
                 {/* รูปภาพจาก land.images */}
-                <div className="bg-black h-40 w-full rounded mb-4 overflow-hidden">
+                <div className="bg-black h-60 w-full rounded mb-4 overflow-hidden">
                   {item.images && item.images.length > 0 ? (
                     <img
                       src={item.images[0].image_url}
@@ -106,7 +98,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-200 font-dm-serif">
       <Navbar />
       <div className="px-4 py-8 sm:px-12">
         <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
