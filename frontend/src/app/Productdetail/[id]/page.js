@@ -1,3 +1,5 @@
+//app/Productdetail/[id]/page.js
+
 'use client'
 import { useEffect, useState } from 'react';
 import { FaUserCircle } from "react-icons/fa";
@@ -6,9 +8,14 @@ import { FaArrowLeft } from 'react-icons/fa';
 
 // Navbar ไม่มีหมวดหมู่
 function Navbar() {
+    const router = useRouter();
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-        <div className="text-4xl font-bold tracking-wide">Land:D</div>
+        <div className="text-4xl font-bold tracking-wide cursor-pointer " 
+            onClick={() => router.push(`/Homepage/`)}
+        >
+            Land:D
+        </div>
         <div className="text-4xl">
             <FaUserCircle />
         </div>
@@ -19,7 +26,7 @@ function Navbar() {
 // รายละเอียดที่ดิน
 function LandDetail({ land }) {
   return (
-    <div className="flex flex-col md:flex-row gap-10 py-10 px-6 md:px-20">
+    <div className="flex flex-col md:flex-row gap-10 py-10 px-6 md:px-30">
       {/* ด้านซ้าย */}
       <div className="bg-white rounded-2xl p-6 w-150 h-150 flex-shrink-0 shadow-lg text-center">
         <div className="bg-black h-full w-full rounded mb-4 overflow-hidden">
@@ -40,29 +47,53 @@ function LandDetail({ land }) {
         <br /><br />
         <h2 className="text-4xl font-bold mb-4 text-gray-800">{land.title}</h2>
         <p className="text-2xl text-gray-700 mb-2">{land.description}</p> <br /><br />
-        <p className="text-2xl text-gray-700 mb-2"><strong>เนื้อที่ : </strong> {land.size} ตารางเมตร</p>
+        <p className="text-2xl text-gray-700 mb-2"><strong>เนื้อที่ : </strong> {
+            (() => {
+                const sqm = parseFloat(land.size);
+                const rai = Math.floor(sqm / 1600);
+                const ngan = Math.floor((sqm % 1600) / 400);
+                const wah = Math.floor((sqm % 400) / 4);
+                const meter = (sqm % 4).toFixed(2);
+          
+                let result = [];
+                if (rai) result.push(`${rai} ไร่`);
+                if (ngan) result.push(`${ngan} งาน`);
+                if (wah) result.push(`${wah} ตารางวา`);
+                if (meter > 0) result.push(`${meter} ตารางเมตร`);
+                if (result.length === 0) result.push(`${sqm} ตารางเมตร`);
+            
+            return result.join(' ');
+            })()
+        } 
+        </p>
         <p className="text-2xl text-gray-700 mb-2"><strong>สถานที่ : </strong> {land.location}</p>
         <p className="text-2xl text-gray-700 mb-2"><strong>ราคา : </strong> {parseFloat(land.price).toLocaleString()} บาท</p> <br /><br />
         <p className="text-2xl text-gray-700 mb-2"><strong>สถานะ : </strong> {land.is_sold ? 'ขายแล้ว' : 'พร้อมขาย'}</p> 
         <p className="text-2xl text-gray-700 mb-4"><strong>ประกาศเมื่อ : </strong> {new Date(land.created_at).toLocaleDateString()}</p> <br />
 
-        <BuyButton onClick={() => alert("ซื้อเรียบร้อย!")} />
+        <BuyButton onClick={() => alert("ซื้อเรียบร้อย!")} isSold={land.is_sold} />
       </div>
     </div>
   );
 }
 
 // ปุ่ม Buy แยกเป็นฟังก์ชันภายในไฟล์
-function BuyButton({ onClick }) {
+function BuyButton({ onClick, isSold }) {
+    const buttonStyle = isSold
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-[#D4AF37] hover:bg-yellow-500 cursor-pointer";
+  
     return (
       <button
-        onClick={onClick}
-        className="mt-6 bg-[#D4AF37] hover:bg-yellow-500 text-white px-8 py-3 rounded-xl text-lg shadow-md cursor-pointer transition-all duration-200 transform hover:scale-105 active:scale-95 active:shadow-inner"
+        onClick={isSold ? null : onClick}
+        disabled={isSold}
+        className={`mt-6 ${buttonStyle} text-white px-8 py-3 rounded-xl text-lg shadow-md transition-all duration-200 transform ${isSold ? '' : 'hover:scale-105 active:scale-95 active:shadow-inner'}`}
       >
-        Buy
+        {isSold ? 'ขายแล้ว' : 'Buy'}
       </button>
     );
   }
+  
 
 // หน้า Product Detail
 export default function ProductDetailPage() {

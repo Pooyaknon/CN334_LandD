@@ -20,7 +20,11 @@ function Navbar() {
 
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      <div className="text-4xl font-bold tracking-wide">Land:D</div>
+      <div className="text-4xl font-bold tracking-wide cursor-pointer " 
+        onClick={() => router.push(`/Homepage/`)}
+      >
+        Land:D
+      </div>
 
       {/* ดึงหมวดหมู่จาก API */}
       <ul className="hidden md:flex gap-6 text-xl">
@@ -71,7 +75,11 @@ function Section({ title, lands }) {
                 </div>
                 <p className="text-base text-gray-700">จังหวัด: {item.location}</p>
                 <p className="text-base font-semibold text-gray-900">
-                  ราคา: {parseFloat(item.price).toLocaleString()} บาท
+                  ราคา: {
+                    parseFloat(item.price) >= 1_000_000
+                      ? `${(item.price / 1_000_000).toFixed(2)} ล้านบาท`
+                      : `${parseFloat(item.price).toLocaleString()} บาท`
+                  }
                 </p>
               </div>
             ))

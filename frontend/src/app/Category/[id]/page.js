@@ -18,7 +18,11 @@ function Navbar({ activeCategoryId }) {
 
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      <div className="text-4xl font-bold tracking-wide">Land:D</div>
+      <div className="text-4xl font-bold tracking-wide cursor-pointer " 
+        onClick={() => router.push(`/Homepage/`)}
+      >
+        Land:D
+      </div>
 
       <ul className="hidden md:flex gap-6 text-xl">
         {categories.map(cat => (
@@ -43,8 +47,12 @@ function Navbar({ activeCategoryId }) {
 
 // การ์ดที่ดิน
 function LandCard({ land }) {
+  const router = useRouter();
   return (
-    <div className="bg-white rounded-2xl p-6 w-70 h-100 flex-shrink-0 shadow-lg text-center">
+    <div
+      className="bg-white rounded-2xl p-6 w-70 h-100 flex-shrink-0 shadow-lg text-center cursor-pointer"
+      onClick={() => router.push(`/Productdetail/${land.id}`)}
+    >
       <div className="bg-black h-60 w-full rounded mb-4 overflow-hidden">
         {land.images?.[0]?.image_url ? (
           <img
