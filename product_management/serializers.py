@@ -8,6 +8,7 @@ class LandImageSerializer(serializers.ModelSerializer):
 
 class LandSerializer(serializers.ModelSerializer):
     images = LandImageSerializer(many=True, read_only=True)
+    size = serializers.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         model = Land
