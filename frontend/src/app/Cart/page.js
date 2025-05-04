@@ -43,32 +43,47 @@ function removeItem(cartItems, id) {
 // แยก Component ย่อยของสินค้าแต่ละชิ้น
 function CartItem({ item, onRemove }) {
     return (
-      <div className="bg-[#586674] text-white rounded-xl p-6 flex justify-between items-center shadow-md ">
-        <div className="flex items-center gap-6 px-15">
-          <div className="bg-white rounded-2xl p-6 w-80 h-80 flex-shrink-0 shadow-lg text-center">
-            <div className="bg-black h-full w-full rounded mb-4 overflow-hidden">
-                {item.images?.[0]?.image_url ? (
-                <img src={item.images[0].image_url} className="w-full h-full object-cover" alt="land" />
-                ) : (
-                <div className="text-white text-lg h-full flex items-center justify-center">ไม่มีรูป</div>
-                )}
-            </div>
+      <div className="relative bg-[#586674] text-white rounded-xl px-8 py-6 shadow-md mx-auto max-w-5xl mt-6">
+        {/* ปุ่มลบ มุมขวาบน */}
+        <button
+          onClick={onRemove}
+          className="absolute top-4 right-4 bg-white text-black rounded-full w-8 h-8 text-xl shadow-md cursor-pointer hover:bg-red-500 hover:text-white"
+        >
+          −
+        </button>
+  
+        <div className="flex items-center gap-8">
+          {/* รูปภาพ */}
+          <div className="bg-white rounded-xl w-32 h-40 overflow-hidden flex items-center justify-center shadow-md">
+            {item.images?.[0]?.image_url ? (
+              <img
+                src={item.images[0].image_url}
+                alt="land"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="bg-black w-full h-full" />
+            )}
           </div>
-          <div>
-            <p className="text-xl font-bold">Name : {item.title}</p>
-            <p className="text-sm">Location : {item.location}</p>
+  
+          {/* รายละเอียด */}
+          <div className="flex-1">
+            <p className="text-2xl font-bold">ชื่อ : {item.title}</p>
+            <p className="text-lg mt-2">สถานที่ : {item.location}</p>
           </div>
-        </div>
-        <div className="text-right">
-          <p className="font-bold text-lg">ราคา : {parseFloat(item.price).toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2})} บาท</p>
-          <button
-            className="bg-white text-black rounded-full w-8 h-8 mt-2 text-xl"
-            onClick={onRemove}
-          >−</button>
+  
+          {/* ราคา */}
+          <div className="absolute bottom-6 right-10 text-right">
+            <p className="font-bold text-lg ">
+              ราคา : {parseFloat(item.price).toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2,})} บาท
+            </p>
+          </div>
         </div>
       </div>
     );
-}
+  }
+  
+  
 
 function FooterTabBar() {
   return (
@@ -99,20 +114,18 @@ export default function CartPage() {
     <div className="min-h-screen flex flex-col bg-gray-200 font-dm-serif">
         <Navbar />
         <main className="flex-grow">
-        <h1 className="text-5xl font-bold text-center text-[#2C3E50] py-8 mb-10">Check out for your lands</h1>
+        <h1 className="text-5xl font-bold text-center text-[#2C3E50] py-10">Check out for your lands</h1>
         <div className="space-y-6">
             {cartItems.map(item => (
             <CartItem key={item.id} item={item} onRemove={() => handleRemove(item.id)} />
             ))}
         </div>
-
-        <div className="mt-10 text-right text-xl text-[#2C3E50] px-15">
+        <div className="mt-20 text-right text-xl text-[#2C3E50] px-25">
             <strong>
                 ยอดสุทธิ : {getTotal(cartItems)} บาท
             </strong>
         </div>
-
-        <div className="flex justify-end mt-6 gap-7 px-15">
+        <div className="flex justify-end mt-6 gap-7 px-25">
             <button onClick={handleBuyMore} 
                     className="bg-[#D4AF37] text-white px-6 py-2 rounded-xl shadow-md text-xl cursor-pointer
                     hover:bg-yellow-500 transition-transform transform hover:scale-105">
