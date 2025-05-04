@@ -44,16 +44,18 @@ function Navbar() {
 
 //Data
 function Section({ title, lands }) {
+  const router = useRouter();
   return (
     <section className="space-y-6">
       <h2 className="text-3xl font-bold font-section-title text-gray-800">{title}</h2>
-      <div className="bg-[#5E6B77] rounded-3xl px-10 py-10 shadow-lg">
+      <div className="bg-[#586674] rounded-3xl px-10 py-10 shadow-lg">
         <div className="flex gap-8 overflow-x-auto hide-scrollbar">
           {lands.length > 0 ? (
             lands.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl p-6 w-70 h-100 flex-shrink-0 shadow-lg text-center"
+                className="bg-white rounded-2xl p-6 w-70 h-100 flex-shrink-0 shadow-lg text-center cursor-pointer"
+                onClick={() => router.push(`/Productdetail/${item.id}`)}
               >
                 {/* รูปภาพจาก land.images */}
                 <div className="bg-black h-60 w-full rounded mb-4 overflow-hidden">

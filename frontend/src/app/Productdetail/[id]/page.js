@@ -1,0 +1,96 @@
+'use client'
+import { useEffect, useState } from 'react';
+import { FaUserCircle } from "react-icons/fa";
+import { useParams, useRouter } from 'next/navigation';
+import { FaArrowLeft } from 'react-icons/fa';
+
+// Navbar ไม่มีหมวดหมู่
+function Navbar() {
+  return (
+    <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
+        <div className="text-4xl font-bold tracking-wide">Land:D</div>
+        <div className="text-4xl">
+            <FaUserCircle />
+        </div>
+    </nav>
+  );
+}
+
+// รายละเอียดที่ดิน
+function LandDetail({ land }) {
+  return (
+    <div className="flex flex-col md:flex-row gap-10 py-10 px-6 md:px-20">
+      {/* ด้านซ้าย */}
+      <div className="bg-white rounded-2xl p-6 w-150 h-150 flex-shrink-0 shadow-lg text-center">
+        <div className="bg-black h-full w-full rounded mb-4 overflow-hidden">
+          {land.images && land.images.length > 0 ? (
+            <img
+              src={land.images[0].image_url}
+              alt="land"
+              className="w-full h-full object-cover rounded"
+            />
+          ) : (
+            <div className="text-white text-lg h-full flex items-center justify-center">ไม่มีรูป</div>
+          )}
+        </div>
+      </div>
+
+      {/* ด้านขวา */}
+      <div className="flex-1">
+        <br /><br />
+        <h2 className="text-4xl font-bold mb-4 text-gray-800">{land.title}</h2>
+        <p className="text-2xl text-gray-700 mb-2">{land.description}</p> <br /><br />
+        <p className="text-2xl text-gray-700 mb-2"><strong>เนื้อที่ : </strong> {land.size} ตารางเมตร</p>
+        <p className="text-2xl text-gray-700 mb-2"><strong>สถานที่ : </strong> {land.location}</p>
+        <p className="text-2xl text-gray-700 mb-2"><strong>ราคา : </strong> {parseFloat(land.price).toLocaleString()} บาท</p> <br /><br />
+        <p className="text-2xl text-gray-700 mb-2"><strong>สถานะ : </strong> {land.is_sold ? 'ขายแล้ว' : 'พร้อมขาย'}</p> 
+        <p className="text-2xl text-gray-700 mb-4"><strong>ประกาศเมื่อ : </strong> {new Date(land.created_at).toLocaleDateString()}</p> <br />
+
+        <BuyButton onClick={() => alert("ซื้อเรียบร้อย!")} />
+      </div>
+    </div>
+  );
+}
+
+// ปุ่ม Buy แยกเป็นฟังก์ชันภายในไฟล์
+function BuyButton({ onClick }) {
+    return (
+      <button
+        onClick={onClick}
+        className="mt-6 bg-[#D4AF37] hover:bg-yellow-500 text-white px-8 py-3 rounded-xl text-lg shadow-md cursor-pointer transition-all duration-200 transform hover:scale-105 active:scale-95 active:shadow-inner"
+      >
+        Buy
+      </button>
+    );
+  }
+
+// หน้า Product Detail
+export default function ProductDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const [land, setLand] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/lands/${params.id}/`)
+      .then(res => res.json())
+      .then(data => setLand(data))
+      .catch(err => console.error("Error fetching land detail:", err));
+  }, [params.id]);
+
+  return (
+    <div className="min-h-screen bg-gray-200 font-dm-serif">
+      <Navbar />
+      <div className="px-6 py-4">
+        <button
+          className="flex items-center text-[#2C3E50] text-xl hover:text-yellow-600 text-lg mb-4 cursor-pointer"
+          onClick={() => router.back()}
+        >
+          <FaArrowLeft className="mr-3" />
+          Back
+        </button>
+
+        {land ? <LandDetail land={land} /> : <p className="text-gray-600">Loading...</p>}
+      </div>
+    </div>
+  );
+}
