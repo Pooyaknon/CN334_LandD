@@ -105,7 +105,8 @@ function FloatingCartButton() {
       className="fixed bottom-15 right-15 bg-[#D4AF37] text-white 
             p-10 rounded-full shadow-lg text-6xl z-50 
             flex items-center justify-center
-            hover:bg-yellow-500 transition-transform transform hover:scale-105"
+            hover:bg-yellow-500 transition-transform transform hover:scale-105
+            cursor-pointer"
     >
       <FaShoppingCart />
     </button>
@@ -132,13 +133,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-200 font-dm-serif">
       <Navbar />
-      <div className="px-4 py-8 sm:px-12">
-        <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
-          <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("กรุงเทพ"))} />
-          <Section title="ลดราคาสุดคุ้ม" lands={lands.filter(l => l.promotion !== null)} />
-          <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
-        </main>
-      </div>
+      <main className="flex-grow">
+        <div className="px-4 py-8 sm:px-12">
+          <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
+            <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("กรุงเทพ"))} />
+            <Section title="ลดราคาสุดคุ้ม" lands={lands.filter(l => l.promotion !== null)} />
+            <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
+          </main>
+        </div>
+      </main>
       <FloatingCartButton />
       <FooterTabBar />
     </div>

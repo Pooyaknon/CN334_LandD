@@ -82,7 +82,8 @@ function FloatingCartButton() {
       className="fixed bottom-15 right-15 bg-[#D4AF37] text-white 
             p-10 rounded-full shadow-lg text-6xl z-50 
             flex items-center justify-center
-            hover:bg-yellow-500 transition-transform transform hover:scale-105"
+            hover:bg-yellow-500 transition-transform transform hover:scale-105
+            cursor-pointer"
     >
       <FaShoppingCart />
     </button>
@@ -118,19 +119,21 @@ export default function CategoryPage() {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-gray-200 font-dm-serif">
+    <div className="min-h-screen flex flex-col bg-gray-200 font-dm-serif">
       <Navbar activeCategoryId={id} />
-      <div className="px-4 py-8 sm:px-12 max-w-screen-xl mx-auto">
-        <h1 className="text-4xl font-bold text-center text-[#2F3A46] mb-10">{categoryName}</h1>
+      <main className="flex-grow">
+        <div className="px-4 py-8 sm:px-12 max-w-screen-xl mx-auto">
+          <h1 className="text-4xl font-bold text-center text-[#2F3A46] mb-10">{categoryName}</h1>
 
-        <div className="flex flex-wrap justify-center gap-8">
-          {lands.length > 0 ? (
-            lands.map((land) => <LandCard key={land.id} land={land} />)
-          ) : (
-            <p className="text-xl text-gray-600 text-center">ไม่มีข้อมูลที่ดินในหมวดนี้</p>
-          )}
+          <div className="flex flex-wrap justify-center gap-8">
+            {lands.length > 0 ? (
+              lands.map((land) => <LandCard key={land.id} land={land} />)
+            ) : (
+              <p className="text-xl text-gray-600 text-center">ไม่มีข้อมูลที่ดินในหมวดนี้</p>
+            )}
+          </div>
         </div>
-      </div>
+      </main>
       <FloatingCartButton />
       <FooterTabBar />
     </div>
