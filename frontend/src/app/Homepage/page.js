@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { FaShoppingCart } from "react-icons/fa";
 
 // Top
 function Navbar() {
@@ -95,6 +96,27 @@ function Section({ title, lands }) {
   );
 }
 
+function FloatingCartButton() {
+  const router = useRouter();
+
+  return (
+    <button
+      onClick={() => router.push("/Cart")} // ไปหน้า cart
+      className="fixed bottom-15 right-15 bg-[#D4AF37] text-white 
+            p-10 rounded-full shadow-lg text-6xl z-50 
+            flex items-center justify-center
+            hover:bg-yellow-500 transition-transform transform hover:scale-105"
+    >
+      <FaShoppingCart />
+    </button>
+  );
+}
+
+function FooterTabBar() {
+  return (
+    <footer className="bg-[#2B2B2B] w-full h-10 mt-12"></footer>
+  );
+}
 
 //เพิ่ม list ตามสบาย
 export default function Home() {
@@ -117,6 +139,8 @@ export default function Home() {
           <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
         </main>
       </div>
+      <FloatingCartButton />
+      <FooterTabBar />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { FaUserCircle } from "react-icons/fa";
 import { useParams, useRouter } from 'next/navigation';
 import { FaArrowLeft } from 'react-icons/fa';
+import { FaShoppingCart } from "react-icons/fa";
 
 // Navbar ไม่มีหมวดหมู่
 function Navbar() {
@@ -94,6 +95,27 @@ function BuyButton({ onClick, isSold }) {
     );
   }
   
+function FloatingCartButton() {
+  const router = useRouter();
+
+  return (
+    <button
+      onClick={() => router.push("/Cart")} // ไปหน้า cart
+      className="fixed bottom-15 right-15 bg-[#D4AF37] text-white 
+            p-10 rounded-full shadow-lg text-6xl z-50 
+            flex items-center justify-center
+            hover:bg-yellow-500 transition-transform transform hover:scale-105"
+    >
+      <FaShoppingCart />
+    </button>
+  );
+}
+
+function FooterTabBar() {
+  return (
+    <footer className="bg-[#2B2B2B] w-full h-10 mt-12"></footer>
+  );
+}
 
 // หน้า Product Detail
 export default function ProductDetailPage() {
@@ -122,6 +144,8 @@ export default function ProductDetailPage() {
 
         {land ? <LandDetail land={land} /> : <p className="text-gray-600">Loading...</p>}
       </div>
+      <FloatingCartButton />
+      <FooterTabBar />
     </div>
   );
 }
