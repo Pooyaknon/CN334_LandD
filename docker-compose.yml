@@ -31,5 +31,22 @@ services:
       - DB_HOST=db
       - DB_PORT=5432
 
+  frontend:
+    container_name: frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - django
+    stdin_open: true
+    tty: true
+
 volumes:
   postgres_data:
