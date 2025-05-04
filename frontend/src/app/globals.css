@@ -1,4 +1,6 @@
+@import url('https://fonts.google.com/share?selection.family=DM+Serif+Display:ital@0;1');
 @import "tailwindcss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,6 +9,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.font-dm-serif {
+  font-family: 'DM Serif Display', serif;
 }
 
 @theme inline {
