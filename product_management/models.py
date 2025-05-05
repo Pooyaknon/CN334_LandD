@@ -8,13 +8,12 @@ class LandType(models.Model):
 
 class Category(models.Model):
     CATEGORY_CHOICES = (
-        ('ภาคเหนือ', 'ภาคเหนือ'),
-        ('ภาคกลาง', 'ภาคกลาง'),
-        ('ภาคตะวันออกเฉียงเหนือ', 'ภาคตะวันออกเฉียงเหนือ'),
-        ('ภาคตะวันออก', 'ภาคตะวันออก'),
-        ('ภาคตะวันตก', 'ภาคตะวันตก'),
-        ('ภาคใต้', 'ภาคใต้'),
-
+        ('north', 'ภาคเหนือ'),
+        ('central', 'ภาคกลาง'),
+        ('northeast', 'ภาคตะวันออกเฉียงเหนือ'),
+        ('east', 'ภาคตะวันออก'),
+        ('west', 'ภาคตะวันตก'),
+        ('south', 'ภาคใต้'),
     )
     name = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
 
