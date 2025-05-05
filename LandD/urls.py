@@ -8,6 +8,7 @@ from order.views import OrderViewSet, PaymentMethodViewSet, DeliveryMethodViewSe
 from user_service.views import RegisterView, login_view, logout_view, current_user
 from user_management.views import AdminUserViewSet
 from cart.views import CartViewSet, CartItemViewSet
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
 router.register(r'lands', LandViewSet)
@@ -29,6 +30,7 @@ urlpatterns = [
     path('api/login/', login_view, name='login'),
     path('api/logout/', logout_view, name='logout'),
     path('api/user/', current_user, name='current_user'),
+    path('api/token/', obtain_auth_token, name='api_token_auth'),
 ]
 
 if settings.DEBUG:

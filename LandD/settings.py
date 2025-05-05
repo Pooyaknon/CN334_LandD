@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'user_service',        
     'cart',
     'order',
-    'frontend',  
+    'frontend',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -138,5 +139,13 @@ REST_FRAMEWORK = {
      ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-    ]
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', 
+]

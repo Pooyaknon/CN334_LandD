@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from .models import Cart, CartItem
+from product_management.models import Land
 from product_management.serializers import LandSerializer
 
 class CartItemSerializer(serializers.ModelSerializer):
-    land = LandSerializer(read_only=True)
+    land = serializers.PrimaryKeyRelatedField(queryset=Land.objects.all())
 
     class Meta:
         model = CartItem
