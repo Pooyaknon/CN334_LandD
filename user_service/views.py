@@ -4,6 +4,7 @@ from .serializers import RegisterSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate, login, logout
+from rest_framework.authtoken.models import Token
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -18,10 +19,11 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user:
         login(request, user)
-        return Response({"message": "Login successful", "user": UserSerializer(user).data})
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"message": "Login successful", "user": UserSerializer(user).data, "token": token.key})
     else:
         return Response({"error": "Invalid credentials"}, status=400)
-
+    
 @api_view(['POST'])
 def logout_view(request):
     logout(request)

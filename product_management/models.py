@@ -15,7 +15,6 @@ class Category(models.Model):
         ('ภาคตะวันออก', 'ภาคตะวันออก'),
         ('ภาคตะวันตก', 'ภาคตะวันตก'),
         ('ภาคใต้', 'ภาคใต้'),
-        
     )
     name = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
 
