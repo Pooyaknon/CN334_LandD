@@ -7,6 +7,22 @@ import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { FaShoppingCart } from "react-icons/fa";
 
+// ดึง token จาก localStorage
+function getAuthHeaders() {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json'
+      };
+    }
+  }
+  return {
+    'Content-Type': 'application/json'
+  };
+}
+
 // Top
 function Navbar() {
   const [categories, setCategories] = useState([]);
@@ -21,7 +37,8 @@ function Navbar() {
 
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      <div className="text-4xl font-bold tracking-wide cursor-pointer " 
+
+      <div className="text-4xl font-bold tracking-wide cursor-pointer "
         onClick={() => router.push(`/Homepage/`)}
       >
         Land:D
@@ -29,15 +46,19 @@ function Navbar() {
 
       {/* ดึงหมวดหมู่จาก API */}
       <ul className="hidden md:flex gap-6 text-xl">
-        {categories.map(cat => (
-          <li
-            key={cat.id}
-            className="cursor-pointer hover:text-yellow-400"
-            onClick={() => router.push(`/Category/${cat.id}`)}
-          >
-            {cat.name}
-          </li>
-        ))}
+        {Array.isArray(categories) ? (
+          categories.map(cat => (
+            <li
+              key={cat.id}
+              className="cursor-pointer hover:text-yellow-400"
+              onClick={() => router.push(`/Category/${cat.id}`)}
+            >
+              {cat.name}
+            </li>
+          ))
+        ) : (
+          <li className="text-red-500">โหลดหมวดหมู่ไม่สำเร็จ</li>
+        )}
       </ul>
 
       <div className="text-4xl">
@@ -82,6 +103,7 @@ function Section({ title, lands }) {
                       : `${parseFloat(item.price).toLocaleString()} บาท`
                   }
                 </p>
+
               </div>
             ))
           ) : (
@@ -124,7 +146,9 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/lands/')
+    fetch("http://localhost:8000/api/lands/?category=1&land_type=1", {
+      headers: getAuthHeaders()
+    })
       .then((res) => res.json())
       .then((data) => setLands(data))
       .catch((err) => console.error("Error fetching lands:", err));
