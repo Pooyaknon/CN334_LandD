@@ -3,6 +3,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
 
+function getAuthHeaders() {
+  const token = localStorage.getItem("token");
+  console.log("Token:", token); // ตรวจสอบว่ามี token หรือไม่
+  return {
+    "Content-Type": "application/json",
+    'Authorization': `${token}`};
+}
+
 // Navbar ไม่มีหมวดหมู่
 function Navbar() {
     const router = useRouter();
@@ -83,14 +91,11 @@ function CartItem({ item, onRemove }) {
     );
   }
   
-  
-
 function FooterTabBar() {
   return (
     <footer className="bg-[#2B2B2B] w-full h-10 mt-12"></footer>
   );
 }
-
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
@@ -108,7 +113,42 @@ export default function CartPage() {
   };
 
   const handleBuyMore = () => router.push("/Homepage");
-  const handleCheckout = () => router.push("/Payment");
+
+  const handleCheckout = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("กรุณาเข้าสู่ระบบก่อนทำการ checkout");
+      router.push("/login"); // ไปยังหน้า login
+      return;
+    }
+  
+    console.log("🧪 Headers:", getAuthHeaders());
+    fetch("http://localhost:8000/api/carts/", {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ items: cartItems })
+    })
+    .then(async (res) => {
+      const data = await res.json();
+      if (!res.ok) {
+        console.error("Checkout failed:", res.status, data); // 👈 log ทั้ง status และ error message
+        throw new Error("Checkout failed");
+      }
+      return data;
+    })
+    
+    .then((data) => {
+      alert("Checkout สำเร็จ!");
+      localStorage.removeItem("cart");
+      setCartItems([]);
+      router.push("/Payment");
+    })
+    .catch((err) => {
+      console.error("Error during checkout:", err);
+      alert("เกิดข้อผิดพลาดระหว่าง checkout");
+    });
+  };
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-200 font-dm-serif">

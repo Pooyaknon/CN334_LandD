@@ -146,7 +146,7 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/lands/?category=1&land_type=1", {
+    fetch("http://localhost:8000/api/lands/", {
       headers: getAuthHeaders()
     })
       .then((res) => res.json())

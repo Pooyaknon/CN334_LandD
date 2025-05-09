@@ -1,6 +1,9 @@
 'use client'
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+
   async function onLogin(event) {
     event.preventDefault();
 
@@ -21,8 +24,8 @@ export default function Login() {
     try {
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('jwt_access', data.access);
-        alert("Login success!");
+        localStorage.setItem('token', data.access);
+        router.push('/Homepage');
       } else {
         alert("Your username/password are incorrect!");
       }

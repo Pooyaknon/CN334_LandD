@@ -5,6 +5,21 @@ import { FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { FaShoppingCart } from "react-icons/fa";
 
+function getAuthHeaders() {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json'
+      };
+    }
+  }
+  return {
+    'Content-Type': 'application/json'
+  };
+}
+
 // Navbar
 function Navbar({ activeCategoryId }) {
   const [categories, setCategories] = useState([]);
