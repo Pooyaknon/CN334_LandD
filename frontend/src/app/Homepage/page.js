@@ -13,7 +13,7 @@ function getAuthHeaders() {
     const token = localStorage.getItem('token');
     if (token) {
       return {
-        'Authorization': `Token ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       };
     }
@@ -23,13 +23,14 @@ function getAuthHeaders() {
   };
 }
 
+
 // Top
 function Navbar() {
   const [categories, setCategories] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/categories/')
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/categories/`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error("Error loading categories:", err));
@@ -146,7 +147,7 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/lands/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lands/`, {
       headers: getAuthHeaders()
     })
       .then((res) => res.json())
