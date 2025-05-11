@@ -123,7 +123,7 @@ export default function CartPage() {
     }
   
     console.log("🧪 Headers:", getAuthHeaders());
-    fetch("http://localhost:8000/api/carts/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/carts/`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify({ items: cartItems })
@@ -131,7 +131,7 @@ export default function CartPage() {
     .then(async (res) => {
       const data = await res.json();
       if (!res.ok) {
-        console.error("Checkout failed:", res.status, data); // 👈 log ทั้ง status และ error message
+        console.error("Checkout failed:", res.status, data); // log ทั้ง status และ error message
         throw new Error("Checkout failed");
       }
       return data;
