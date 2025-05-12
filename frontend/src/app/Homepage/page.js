@@ -1,5 +1,3 @@
-//app/Homepage/page.js
-
 'use client'
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
@@ -10,19 +8,16 @@ import { FaShoppingCart } from "react-icons/fa";
 // ดึง token จาก localStorage
 function getAuthHeaders() {
   if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token'); // ใช้ access_token จาก localStorage
     if (token) {
       return {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       };
     }
   }
-  return {
-    'Content-Type': 'application/json'
-  };
+  return {}; // คืนค่าเป็น object ว่างหากไม่มี token หรือ window
 }
-
 
 // Top
 function Navbar() {
@@ -161,9 +156,18 @@ export default function Home() {
       <main className="flex-grow">
         <div className="px-4 py-8 sm:px-12">
           <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
-            <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("กรุงเทพ"))} />
-            <Section title="ลดราคาสุดคุ้ม" lands={lands.filter(l => l.promotion !== null)} />
-            <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
+            <Section
+              title="พื้นที่ใหม่ย่านกรุงเทพ"
+              lands={Array.isArray(lands) ? lands.filter(l => l.location?.includes("กรุงเทพ")) : []}
+            />
+            <Section
+              title="ลดราคาสุดคุ้ม"
+              lands={Array.isArray(lands) ? lands.filter(l => l.promotion !== null) : []}
+            />
+            <Section
+              title="พื้นที่ใหม่ล่าสุด!"
+              lands={Array.isArray(lands) ? lands.slice(0, 4) : []}
+            />
           </main>
         </div>
       </main>
