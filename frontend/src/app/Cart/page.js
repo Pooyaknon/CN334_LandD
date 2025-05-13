@@ -14,21 +14,16 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      <div className="text-4xl font-bold tracking-wide cursor-pointer" onClick={() => router.push(`/Homepage/`)}>
-        Land:D
-      </div>
-      <button
-        onClick={handleLogout}
-        className="bg-[#D4AF37] text-white px-4 py-2 rounded-lg shadow-md cursor-pointer hover:bg-yellow-500 transition-all"
-      >
-        Logout
-      </button>
-      <div className="text-4xl">
-        <FaUserCircle />
-      </div>
-    </nav>
-  );
+  <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
+    <div className="text-4xl font-bold tracking-wide cursor-pointer" onClick={() => router.push(`/Homepage/`)}>
+      Land:D
+    </div>
+    <div className="text-4xl">
+      <FaUserCircle />
+    </div>
+  </nav>
+);
+
 }
 
 function loadCart() {
