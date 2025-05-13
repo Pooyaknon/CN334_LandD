@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 from product_management.models import Land
 
 class PaymentMethod(models.Model):
-    PAYMENT_CHOICE = (
+    PAYMENT_CHOICES = (
         ('banking', 'Mobile Banking'),
         ('credit', 'Credit Card'),
     )
 
-    method_name = models.CharField(max_length=50)
+    method_name = models.CharField(max_length=50, choices=PAYMENT_CHOICES)
 
     def __str__(self):
         return self.method_name
@@ -18,7 +18,7 @@ class DeliveryMethod(models.Model):
         ('pickup', 'รับโฉนดที่สำนักงาน'),
         ('appointment', 'นัดรับโฉนด'),
     )
-    method_name = models.CharField(max_length=50)
+    method_name = models.CharField(max_length=50, choices=DELIVERY_CHOICES)
 
     def __str__(self):
         return self.method_name
