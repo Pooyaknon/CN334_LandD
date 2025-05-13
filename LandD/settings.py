@@ -40,25 +40,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
     'product_management',
     'user_management',
     'user_service',        
     'cart',
     'order',
     'frontend',  
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'LandD.urls'
@@ -144,9 +144,15 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Folder where media files will be stored
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ]
+'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+],
 }
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', 
+]
 
 CORS_ALLOW_ALL_ORIGINS = True

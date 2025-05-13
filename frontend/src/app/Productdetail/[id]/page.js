@@ -68,25 +68,38 @@ function LandDetail({ land }) {
         } 
         </p>
         <p className="text-2xl text-gray-700 mb-2"><strong>สถานที่ : </strong> {land.location}</p>
-        <p className="text-2xl text-gray-700 mb-2"><strong>ราคา : </strong> {parseFloat(land.price).toLocaleString()} บาท</p> <br /><br />
+        <p className="text-2xl text-gray-700 mb-2"><strong>ราคา : </strong> {parseFloat(land.price).toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2})} บาท</p> <br /><br />
         <p className="text-2xl text-gray-700 mb-2"><strong>สถานะ : </strong> {land.is_sold ? 'ขายแล้ว' : 'พร้อมขาย'}</p> 
         <p className="text-2xl text-gray-700 mb-4"><strong>ประกาศเมื่อ : </strong> {new Date(land.created_at).toLocaleDateString()}</p> <br />
 
-        <BuyButton onClick={() => alert("ซื้อเรียบร้อย!")} isSold={land.is_sold} />
+        <BuyButton land={land} isSold={land.is_sold} />
       </div>
     </div>
   );
 }
 
 // ปุ่ม Buy แยกเป็นฟังก์ชันภายในไฟล์
-function BuyButton({ onClick, isSold }) {
+function BuyButton({ land, isSold }) {
+  const router = useRouter();
+    const handleAddToCart = () => {
+      const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const exists = existingCart.find(item => item.id === land.id);
+      if (exists) {
+        alert("คุณได้เพิ่มสินค้านี้ไปแล้ว");
+      } else {
+        const updatedCart = [...existingCart, land];
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        router.push("/Cart");
+        alert("เพิ่มสินค้าแล้ว");
+      }
+    };
     const buttonStyle = isSold
       ? "bg-gray-400 cursor-not-allowed"
       : "bg-[#D4AF37] hover:bg-yellow-500 cursor-pointer";
   
     return (
       <button
-        onClick={isSold ? null : onClick}
+        onClick={isSold ? null : handleAddToCart}
         disabled={isSold}
         className={`mt-6 ${buttonStyle} text-white px-8 py-3 rounded-xl text-lg shadow-md transition-all duration-200 transform ${isSold ? '' : 'hover:scale-105 active:scale-95 active:shadow-inner'}`}
       >
@@ -104,7 +117,8 @@ function FloatingCartButton() {
       className="fixed bottom-15 right-15 bg-[#D4AF37] text-white 
             p-10 rounded-full shadow-lg text-6xl z-50 
             flex items-center justify-center
-            hover:bg-yellow-500 transition-transform transform hover:scale-105"
+            hover:bg-yellow-500 transition-transform transform hover:scale-105
+            cursor-pointer"
     >
       <FaShoppingCart />
     </button>
@@ -131,8 +145,9 @@ export default function ProductDetailPage() {
   }, [params.id]);
 
   return (
-    <div className="min-h-screen bg-gray-200 font-dm-serif">
+    <div className="min-h-screen flex flex-col bg-gray-200 font-dm-serif">
       <Navbar />
+      <main className="flex-grow">
       <div className="px-6 py-4">
         <button
           className="flex items-center text-[#2C3E50] text-xl hover:text-yellow-600 text-lg mb-4 cursor-pointer"
@@ -144,6 +159,7 @@ export default function ProductDetailPage() {
 
         {land ? <LandDetail land={land} /> : <p className="text-gray-600">Loading...</p>}
       </div>
+      </main>
       <FloatingCartButton />
       <FooterTabBar />
     </div>

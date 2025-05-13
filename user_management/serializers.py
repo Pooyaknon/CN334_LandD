@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from user_management.models import Customer
 
-class AdminUserSerializer(serializers.ModelSerializer):
+class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'is_staff', 'is_superuser', 'is_active']
+        model = Customer
+        fields = ['id', 'user', 'fullname', 'address', 'province', 'post_code', 'tel']

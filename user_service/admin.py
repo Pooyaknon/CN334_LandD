@@ -1,1 +1,0 @@
-#Use django admin views for user_management

@@ -1,5 +1,3 @@
-//app/Homepage/page.js
-
 'use client'
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
@@ -7,13 +5,27 @@ import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { FaShoppingCart } from "react-icons/fa";
 
+// ดึง token จาก localStorage
+function getAuthHeaders() {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('access_token'); // ใช้ access_token จาก localStorage
+    if (token) {
+      return {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+    }
+  }
+  return {}; // คืนค่าเป็น object ว่างหากไม่มี token หรือ window
+}
+
 // Top
 function Navbar() {
   const [categories, setCategories] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/categories/')
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/categories/`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error("Error loading categories:", err));
@@ -21,7 +33,8 @@ function Navbar() {
 
   return (
     <nav className="bg-[#2B2B2B] text-white px-6 py-3 flex items-center justify-between">
-      <div className="text-4xl font-bold tracking-wide cursor-pointer " 
+
+      <div className="text-4xl font-bold tracking-wide cursor-pointer "
         onClick={() => router.push(`/Homepage/`)}
       >
         Land:D
@@ -29,15 +42,19 @@ function Navbar() {
 
       {/* ดึงหมวดหมู่จาก API */}
       <ul className="hidden md:flex gap-6 text-xl">
-        {categories.map(cat => (
-          <li
-            key={cat.id}
-            className="cursor-pointer hover:text-yellow-400"
-            onClick={() => router.push(`/Category/${cat.id}`)}
-          >
-            {cat.name}
-          </li>
-        ))}
+        {Array.isArray(categories) ? (
+          categories.map(cat => (
+            <li
+              key={cat.id}
+              className="cursor-pointer hover:text-yellow-400"
+              onClick={() => router.push(`/Category/${cat.id}`)}
+            >
+              {cat.name}
+            </li>
+          ))
+        ) : (
+          <li className="text-red-500">โหลดหมวดหมู่ไม่สำเร็จ</li>
+        )}
       </ul>
 
       <div className="text-4xl">
@@ -82,6 +99,7 @@ function Section({ title, lands }) {
                       : `${parseFloat(item.price).toLocaleString()} บาท`
                   }
                 </p>
+
               </div>
             ))
           ) : (
@@ -105,7 +123,8 @@ function FloatingCartButton() {
       className="fixed bottom-15 right-15 bg-[#D4AF37] text-white 
             p-10 rounded-full shadow-lg text-6xl z-50 
             flex items-center justify-center
-            hover:bg-yellow-500 transition-transform transform hover:scale-105"
+            hover:bg-yellow-500 transition-transform transform hover:scale-105
+            cursor-pointer"
     >
       <FaShoppingCart />
     </button>
@@ -123,7 +142,7 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/lands/')
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lands/`)
       .then((res) => res.json())
       .then((data) => setLands(data))
       .catch((err) => console.error("Error fetching lands:", err));
@@ -132,13 +151,24 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-200 font-dm-serif">
       <Navbar />
-      <div className="px-4 py-8 sm:px-12">
-        <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
-          <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("กรุงเทพ"))} />
-          <Section title="ลดราคาสุดคุ้ม" lands={lands.filter(l => l.promotion !== null)} />
-          <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
-        </main>
-      </div>
+      <main className="flex-grow">
+        <div className="px-4 py-8 sm:px-12">
+          <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
+            <Section
+              title="พื้นที่ใหม่ย่านกรุงเทพ"
+              lands={Array.isArray(lands) ? lands.filter(l => l.location?.includes("กรุงเทพ")) : []}
+            />
+            <Section
+              title="ลดราคาสุดคุ้ม"
+              lands={Array.isArray(lands) ? lands.filter(l => l.promotion !== null) : []}
+            />
+            <Section
+              title="พื้นที่ใหม่ล่าสุด!"
+              lands={Array.isArray(lands) ? lands.slice(0, 4) : []}
+            />
+          </main>
+        </div>
+      </main>
       <FloatingCartButton />
       <FooterTabBar />
     </div>
