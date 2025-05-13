@@ -142,9 +142,7 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lands/`, {
-      headers: getAuthHeaders()
-    })
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lands/`)
       .then((res) => res.json())
       .then((data) => setLands(data))
       .catch((err) => console.error("Error fetching lands:", err));
