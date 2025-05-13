@@ -4,8 +4,8 @@ from product_management.models import Land
 
 class PaymentMethod(models.Model):
     PAYMENT_CHOICES = (
-        ('banking', 'Mobile Banking'),
-        ('credit', 'Credit Card'),
+        ('Mobile Banking', 'Mobile Banking'),
+        ('Credit Card', 'Credit Card'),
     )
 
     method_name = models.CharField(max_length=50, choices=PAYMENT_CHOICES)
@@ -15,8 +15,8 @@ class PaymentMethod(models.Model):
 
 class DeliveryMethod(models.Model):
     DELIVERY_CHOICES = (
-        ('pickup', 'รับโฉนดที่สำนักงาน'),
-        ('appointment', 'นัดรับโฉนด'),
+        ('Pickup', 'รับโฉนดที่สำนักงาน'),
+        ('Appointment', 'นัดรับโฉนด'),
     )
     method_name = models.CharField(max_length=50, choices=DELIVERY_CHOICES)
 

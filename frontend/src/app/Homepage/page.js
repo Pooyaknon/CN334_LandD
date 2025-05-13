@@ -6,18 +6,18 @@ import { useRouter } from "next/navigation";
 import { FaShoppingCart } from "react-icons/fa";
 
 // ดึง token จาก localStorage
-function getAuthHeaders() {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('access_token'); // ใช้ access_token จาก localStorage
-    if (token) {
-      return {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
-    }
-  }
-  return {}; // คืนค่าเป็น object ว่างหากไม่มี token หรือ window
-}
+// function getAuthHeaders() {
+//   if (typeof window !== 'undefined') {
+//     const token = localStorage.getItem('access_token'); // ใช้ access_token จาก localStorage
+//     if (token) {
+//       return {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json'
+//       };
+//     }
+//   }
+//   return {}; // คืนค่าเป็น object ว่างหากไม่มี token หรือ window
+// }
 
 // Top
 function Navbar() {

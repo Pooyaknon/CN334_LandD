@@ -6,8 +6,10 @@ from user_management.models import Customer
 from user_management.serializers import CustomerSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.views import APIView
 
+# Register API (for creating a new user and customer)
 @csrf_exempt
 def register(request):
     if request.method == "POST":
@@ -39,16 +41,29 @@ def register(request):
 
     return JsonResponse({"error": "method not allowed."}, status=405)
 
-
+# CustomerView for authenticated user
 class CustomerView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         try:
-            # ดึง customer ตาม user ที่ล็อกอิน
+            # ดึงข้อมูล customer ตาม user ที่ล็อกอิน
             customer_data = Customer.objects.get(user=request.user)
         except Customer.DoesNotExist:
             return Response({"error": "Customer not found"}, status=404)
 
         customer_serializer = CustomerSerializer(customer_data)
         return Response({"data": customer_serializer.data})
+
+# List all customers
+class CustomerListView(generics.ListAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
+
+# Get a single customer by ID
+class CustomerDetailView(generics.RetrieveAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
