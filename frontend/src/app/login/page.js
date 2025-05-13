@@ -4,20 +4,18 @@ import { useRouter } from "next/navigation";
 
 function Navbar() {
   return (
-    <div className="bg-[#2f2f2f] text-white text-3xl font-bold py-4 text-center tracking-wide">
+    <div className="bg-[#2B2B2B] text-white text-3xl font-bold py-4 text-center tracking-wide">
       Welcome to Land :D
     </div>
   );
 }
 
-// ✅ Footer function
 function FooterTabBar() {
   return (
     <footer className="bg-[#2B2B2B] w-full h-10 mt-12"></footer>
   );
 }
 
-// ✅ Main Login Component
 export default function Login() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
@@ -62,54 +60,55 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-200 font-dm-serif">
+    <main className="min-h-screen flex flex-col bg-gray-200 font-dm-serif">
       <Navbar />
+      <div className="flex flex-1 items-center flex-col gap-4 mt-2">
+        {/* Title */}
+        <h2 className="text-3xl font-bold text-[#2C3E50] mb-2">Log in</h2>
 
-      {/* Login Form */}
-      <div className="flex flex-1 items-center justify-center">
+        {/* Form Box */}
         <form
           onSubmit={onLogin}
           className="bg-[#2c3e50] text-white rounded-xl shadow-lg p-8 w-80 flex flex-col gap-4"
         >
-          <h2 className="text-2xl text-center font-bold mb-2">Log in</h2>
-
           <div>
-            <label className="text-sm block font-semibold mb-1">Username :</label>
+            <label className="text-sm font-semibold mb-1 block">Username :</label>
             <input
               name="username"
-              className="w-full p-2 rounded-md text-black"
+              className="w-full p-2 rounded-md bg-white text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               type="text"
               placeholder="Enter your username"
               required
             />
           </div>
-
           <div>
             <label className="text-sm block font-semibold mb-1">Password :</label>
             <input
               name="password"
-              className="w-full p-2 rounded-md text-black"
+              className="w-full p-2 rounded-md bg-white text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               type="password"
               placeholder="Enter your password"
               required
             />
           </div>
-
-          {errorMessage && (
+          {/* {errorMessage && (
             <p className="text-red-400 text-center text-sm">{errorMessage}</p>
-          )}
-
-          <button
-            type="submit"
-            className="mt-2 py-2 bg-[#1c2d3c] hover:bg-[#243544] rounded-md shadow-md"
-            disabled={isLoading}
-          >
-            {isLoading ? "Logging in..." : "Log in"}
-          </button>
+          )} */}
         </form>
-      </div>
 
-      {/* ✅ ใช้ Footer */}
+        <button
+          type="submit"
+          onClick={(e) => {
+            // simulate form submit manually
+            const form = document.querySelector('form');
+            form?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+          }}
+          className="w-40 py-2 bg-[#1c2d3c] hover:bg-[#243544] rounded-md shadow-md text-white cursor-pointer"
+          disabled={isLoading}
+        >
+          {isLoading ? "Logging in..." : "Log in"}
+        </button>
+      </div>
       <FooterTabBar />
     </main>
   );
