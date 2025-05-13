@@ -2,10 +2,26 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+function Navbar() {
+  return (
+    <div className="bg-[#2f2f2f] text-white text-3xl font-bold py-4 text-center tracking-wide">
+      Welcome to Land :D
+    </div>
+  );
+}
+
+// ✅ Footer function
+function FooterTabBar() {
+  return (
+    <footer className="bg-[#2B2B2B] w-full h-10 mt-12"></footer>
+  );
+}
+
+// ✅ Main Login Component
 export default function Login() {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState(""); // เพิ่มการจัดการข้อผิดพลาด
-  const [isLoading, setIsLoading] = useState(false); // เพื่อให้สามารถแสดงสถานะ Loading
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function onLogin(event) {
     event.preventDefault();
@@ -16,8 +32,8 @@ export default function Login() {
       password: formData.get('password'),
     };
 
-    setIsLoading(true);  // ตั้งค่าให้เป็น true เมื่อเริ่มทำการส่งข้อมูล
-    setErrorMessage(""); // เคลียร์ข้อความผิดพลาดก่อน
+    setIsLoading(true);
+    setErrorMessage("");
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/token/`, {
@@ -31,57 +47,70 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('access_token', data.access); // เก็บ access token
-        localStorage.setItem('refresh_token', data.refresh); // เก็บ refresh token
-        router.push('/Homepage');  // ถ้า login สำเร็จไปที่หน้า Homepage
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+        router.push('/Homepage');
       } else {
-        setErrorMessage("Username or Password is incorrect"); // แสดงข้อความผิดพลาด
+        setErrorMessage("Username or Password is incorrect");
       }
     } catch (error) {
-      setErrorMessage("Failed to connect to the API"); // หากเกิดข้อผิดพลาดระหว่างการเชื่อมต่อ
+      setErrorMessage("Failed to connect to the API");
       console.error(error);
     } finally {
-      setIsLoading(false); // ตั้งค่าให้เป็น false หลังจากการดำเนินการเสร็จสิ้น
+      setIsLoading(false);
     }
   }
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-center'>
-      <div className="text-center text-4xl font-bold mb-6">Login</div>
+    <main className="min-h-screen bg-gray-200 font-dm-serif">
+      <Navbar />
 
-      <form onSubmit={onLogin} className="flex flex-col gap-4 p-4 w-80 border rounded-lg shadow-md">
-        <div>
-          <label className="block text-xl">Username</label>
-          <input
-            name="username"
-            className="p-2 w-full rounded-lg border"
-            type="text"
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-xl">Password</label>
-          <input
-            name="password"
-            className="p-2 w-full rounded-lg border"
-            type="password"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-
-        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>} {/* แสดงข้อความผิดพลาด */}
-
-        <button
-          className="p-3 bg-green-500 text-white rounded-lg"
-          type="submit"
-          disabled={isLoading} // ไม่ให้กดซ้ำเมื่อกำลังโหลด
+      {/* Login Form */}
+      <div className="flex flex-1 items-center justify-center">
+        <form
+          onSubmit={onLogin}
+          className="bg-[#2c3e50] text-white rounded-xl shadow-lg p-8 w-80 flex flex-col gap-4"
         >
-          {isLoading ? "Logging in..." : "Login"} {/* แสดงสถานะการเข้าสู่ระบบ */}
-        </button>
-      </form>
+          <h2 className="text-2xl text-center font-bold mb-2">Log in</h2>
+
+          <div>
+            <label className="text-sm block font-semibold mb-1">Username :</label>
+            <input
+              name="username"
+              className="w-full p-2 rounded-md text-black"
+              type="text"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="text-sm block font-semibold mb-1">Password :</label>
+            <input
+              name="password"
+              className="w-full p-2 rounded-md text-black"
+              type="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          {errorMessage && (
+            <p className="text-red-400 text-center text-sm">{errorMessage}</p>
+          )}
+
+          <button
+            type="submit"
+            className="mt-2 py-2 bg-[#1c2d3c] hover:bg-[#243544] rounded-md shadow-md"
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Log in"}
+          </button>
+        </form>
+      </div>
+
+      {/* ✅ ใช้ Footer */}
+      <FooterTabBar />
     </main>
   );
 }

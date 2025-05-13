@@ -127,6 +127,7 @@ export default function CartPage() {
     })
     .then((data) => {
       alert("Checkout สำเร็จ!");
+      router.push('/Payment/')
       localStorage.removeItem("cart");
       setCartItems([]);
     })
