@@ -107,35 +107,43 @@ export default function CartPage() {
   const handleBuyMore = () => router.push("/Homepage");
 
   const handleCheckout = () => {
-  const landItems = cartItems.map(item => ({ land: item.id }));
+    const token = localStorage.getItem("access_token");
 
-  fetchWithAuth(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/carts/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-    },
-    body: JSON.stringify({ items: landItems }),
-  })
-    .then(async (res) => {
-      const data = await res.json();
-      if (!res.ok) {
-        console.error("Checkout failed:", res.status, data);
-        throw new Error("Checkout failed");
-      }
-      return data;
-    })
-    .then((data) => {
-      alert("Checkout สำเร็จ!");
-      localStorage.removeItem("cart");
-      setCartItems([]);
-    })
-    .catch((err) => {
-      console.error("Error during checkout:", err);
-      alert("เกิดข้อผิดพลาดระหว่าง checkout");
-    });
-};
+    // ถ้าไม่มี token -> แจ้งเตือนและเด้งไปหน้า login
+    if (!token) {
+      alert("กรุณา login ก่อนทำการชำระ");
+      router.push("/login");
+      return;
+    }
 
+    const landItems = cartItems.map(item => ({ land: item.id }));
+
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/carts/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ items: landItems }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          console.error("Checkout failed:", res.status, data);
+          throw new Error("Checkout failed");
+        }
+        return data;
+      })
+      .then((data) => {
+        alert("Checkout สำเร็จ!");
+        localStorage.removeItem("cart");
+        setCartItems([]);
+      })
+      .catch((err) => {
+        console.error("Error during checkout:", err);
+        alert("เกิดข้อผิดพลาดระหว่าง checkout");
+      });
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-200 font-dm-serif">
