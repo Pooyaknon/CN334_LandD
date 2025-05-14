@@ -2,10 +2,8 @@
 
 'use client'
 import { useEffect, useState } from 'react';
-import { FaUserCircle } from "react-icons/fa";
 import { useParams, useRouter } from 'next/navigation';
-import { FaArrowLeft } from 'react-icons/fa';
-import { FaShoppingCart } from "react-icons/fa";
+import { FaUserCircle, FaArrowLeft, FaShoppingCart } from 'react-icons/fa';
 
 // Navbar ไม่มีหมวดหมู่
 function Navbar() {
@@ -17,9 +15,39 @@ function Navbar() {
         >
             Land:D
         </div>
-        <div className="text-4xl">
-            <FaUserCircle />
-        </div>
+      <div
+        className="text-4xl cursor-pointer"
+        onClick={async () => {
+          const token = localStorage.getItem("access_token");
+          if (!token) {
+            alert("กรุณาเข้าสู่ระบบก่อน");
+            return;
+          }
+
+          try {
+            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/customers/me/`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (!userRes.ok) {
+              throw new Error("ไม่สามารถดึงข้อมูลลูกค้าได้");
+            }
+
+            const customerData = await userRes.json();
+            const customerId = customerData.id;
+
+            router.push(`/Profile/${customerId}`);
+          } catch (err) {
+            console.error("เกิดข้อผิดพลาด:", err);
+            alert("เกิดข้อผิดพลาดขณะโหลดข้อมูลผู้ใช้งาน");
+          }
+        }}
+      >
+        <FaUserCircle />
+      </div>
     </nav>
   );
 }

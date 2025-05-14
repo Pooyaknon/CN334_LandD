@@ -32,4 +32,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
     path('api/customers/', CustomerListView.as_view(), name='customer_list'), 
     path('api/customers/<int:id>/', CustomerDetailView.as_view(), name='customer_detail'),
+    path('api/customers/me/', CustomerMeView.as_view(), name='customer-me'),
 ]

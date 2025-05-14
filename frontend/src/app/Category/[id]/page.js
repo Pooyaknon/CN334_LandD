@@ -1,26 +1,8 @@
 'use client'
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { FaUserCircle } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { FaShoppingCart } from "react-icons/fa";
+import { useRouter, useParams } from "next/navigation";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 
-function getAuthHeaders() {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
-    if (token) {
-      return {
-        'Authorization': `Token ${token}`,
-        'Content-Type': 'application/json'
-      };
-    }
-  }
-  return {
-    'Content-Type': 'application/json'
-  };
-}
-
-// Navbar
 function Navbar({ activeCategoryId }) {
   const [categories, setCategories] = useState([]);
   const router = useRouter();
@@ -54,14 +36,43 @@ function Navbar({ activeCategoryId }) {
         ))}
       </ul>
 
-      <div className="text-4xl">
+      <div
+        className="text-4xl cursor-pointer"
+        onClick={async () => {
+          const token = localStorage.getItem("access_token");
+          if (!token) {
+            alert("กรุณาเข้าสู่ระบบก่อน");
+            return;
+          }
+
+          try {
+            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/customers/me/`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (!userRes.ok) {
+              throw new Error("ไม่สามารถดึงข้อมูลลูกค้าได้");
+            }
+
+            const customerData = await userRes.json();
+            const customerId = customerData.id;
+
+            router.push(`/Profile/${customerId}`);
+          } catch (err) {
+            console.error("เกิดข้อผิดพลาด:", err);
+            alert("เกิดข้อผิดพลาดขณะโหลดข้อมูลผู้ใช้งาน");
+          }
+        }}
+      >
         <FaUserCircle />
       </div>
     </nav>
   );
 }
 
-// การ์ดที่ดิน
 function LandCard({ land }) {
   const router = useRouter();
   return (
@@ -90,7 +101,6 @@ function LandCard({ land }) {
 
 function FloatingCartButton() {
   const router = useRouter();
-
   return (
     <button
       onClick={() => router.push("/Cart")} // ไปหน้า cart

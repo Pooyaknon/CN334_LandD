@@ -9,6 +9,9 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.views import APIView
 
+from .models import Customer
+from .serializers import CustomerSerializer
+
 # Register API (for creating a new user and customer)
 # user_management/views.py
 @csrf_exempt
@@ -63,3 +66,14 @@ class CustomerDetailView(generics.RetrieveAPIView):
     serializer_class = CustomerSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
+
+class CustomerMeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            customer = Customer.objects.get(user=request.user)
+            serializer = CustomerSerializer(customer)
+            return Response(serializer.data)
+        except Customer.DoesNotExist:
+            return Response({"detail": "ไม่พบข้อมูลลูกค้า"}, status=404)
