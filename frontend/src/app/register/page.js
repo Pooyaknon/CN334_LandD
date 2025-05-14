@@ -14,7 +14,9 @@ export default function Register() {
     const payload = {
       username: formData.get('username'),
       password: formData.get('password'),
-      fullname: formData.get('fullname'),
+      firstname: formData.get('firstname'),
+      lastname: formData.get('lastname'),
+      email: formData.get('email'),
       address: formData.get('address'),
       province: formData.get('province'),
       post_code: formData.get('post_code'),
@@ -75,12 +77,34 @@ export default function Register() {
         </div>
 
         <div>
-          <label className="block text-xl">Full Name</label>
+          <label className="block text-xl">Firstname</label>
           <input
-            name="fullname"
+            name="firstname"
             className="p-2 w-full rounded-lg border"
             type="text"
-            placeholder="Enter your full name"
+            placeholder="Enter your first name"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Lastname</label>
+          <input
+            name="lastname"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your last name"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Email</label>
+          <input
+            name="email"
+            className="p-2 w-full rounded-lg border"
+            type="email"
+            placeholder="Enter your email"
             required
           />
         </div>

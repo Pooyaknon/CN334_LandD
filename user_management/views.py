@@ -10,12 +10,12 @@ from rest_framework import generics
 from rest_framework.views import APIView
 
 # Register API (for creating a new user and customer)
+# user_management/views.py
 @csrf_exempt
 def register(request):
     if request.method == "POST":
         data = JSONParser().parse(request)
 
-        # สร้าง User ใหม่
         try:
             new_user = User.objects.create_user(
                 username=data['username'],
@@ -25,17 +25,13 @@ def register(request):
             return JsonResponse({"error": "username already used."}, status=400)
 
         new_user.save()
-
-        # เพิ่ม user ID ไปในข้อมูล customer
         data['user'] = new_user.id
 
-        # สร้าง Customer จาก serializer
         customer_serializer = CustomerSerializer(data=data)
         if customer_serializer.is_valid():
             customer_serializer.save()
             return JsonResponse(customer_serializer.data, status=201)
 
-        # หากข้อมูลไม่ valid ให้ลบ user ที่สร้างไปแล้ว
         new_user.delete()
         return JsonResponse({"error": "data not valid"}, status=400)
 

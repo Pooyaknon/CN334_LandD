@@ -43,6 +43,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - NEXT_PUBLIC_API_BASE_URL=http://django:8000
     depends_on:
       - django
     stdin_open: true
