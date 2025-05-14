@@ -1,6 +1,15 @@
 services:
   - type: web
-    name: django-backend
+    name: landd-backend
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn myproject.wsgi:application
+    startCommand: gunicorn LandD.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        value: your-secret-key-here
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: your-backend-service.onrender.com
+      - key: DATABASE_URL
+        value: postgres://youruser:yourpassword@yourhost:5432/yourdbname
