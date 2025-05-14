@@ -1,5 +1,3 @@
-//app/Homepage/page.js
-
 'use client'
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
@@ -8,21 +6,18 @@ import { useRouter } from "next/navigation";
 import { FaShoppingCart } from "react-icons/fa";
 
 // ดึง token จาก localStorage
-function getAuthHeaders() {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
-    if (token) {
-      return {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
-    }
-  }
-  return {
-    'Content-Type': 'application/json'
-  };
-}
-
+// function getAuthHeaders() {
+//   if (typeof window !== 'undefined') {
+//     const token = localStorage.getItem('access_token'); // ใช้ access_token จาก localStorage
+//     if (token) {
+//       return {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json'
+//       };
+//     }
+//   }
+//   return {}; // คืนค่าเป็น object ว่างหากไม่มี token หรือ window
+// }
 
 // Top
 function Navbar() {
@@ -62,9 +57,41 @@ function Navbar() {
         )}
       </ul>
 
-      <div className="text-4xl">
+      <div
+        className="text-4xl cursor-pointer"
+        onClick={async () => {
+          const token = localStorage.getItem("access_token");
+          if (!token) {
+            alert("กรุณาเข้าสู่ระบบก่อน");
+            return;
+          }
+
+          try {
+            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/customers/me/`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (!userRes.ok) {
+              throw new Error("ไม่สามารถดึงข้อมูลลูกค้าได้");
+            }
+
+            const customerData = await userRes.json();
+            const customerId = customerData.id;
+
+            router.push(`/Profile/${customerId}`);
+          } catch (err) {
+            console.error("เกิดข้อผิดพลาด:", err);
+            alert("เกิดข้อผิดพลาดขณะโหลดข้อมูลผู้ใช้งาน");
+          }
+        }}
+      >
         <FaUserCircle />
       </div>
+
+
     </nav>
   );
 }
@@ -147,9 +174,7 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lands/`, {
-      headers: getAuthHeaders()
-    })
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lands/`)
       .then((res) => res.json())
       .then((data) => setLands(data))
       .catch((err) => console.error("Error fetching lands:", err));
@@ -161,9 +186,18 @@ export default function Home() {
       <main className="flex-grow">
         <div className="px-4 py-8 sm:px-12">
           <main className="flex flex-col gap-12 max-w-screen-xl mx-auto">
-            <Section title="พื้นที่ใหม่ย่านกรุงเทพ" lands={lands.filter(l => l.location.includes("กรุงเทพ"))} />
-            <Section title="ลดราคาสุดคุ้ม" lands={lands.filter(l => l.promotion !== null)} />
-            <Section title="พื้นที่ใหม่ล่าสุด!" lands={lands.slice(0, 4)} />
+            <Section
+              title="พื้นที่ใหม่ย่านกรุงเทพ"
+              lands={Array.isArray(lands) ? lands.filter(l => l.location?.includes("กรุงเทพ")) : []}
+            />
+            <Section
+              title="ลดราคาสุดคุ้ม"
+              lands={Array.isArray(lands) ? lands.filter(l => l.promotion !== null) : []}
+            />
+            <Section
+              title="พื้นที่ใหม่ล่าสุด!"
+              lands={Array.isArray(lands) ? lands.slice(0, 4) : []}
+            />
           </main>
         </div>
       </main>

@@ -26,10 +26,11 @@ urlpatterns = [
 
     # API Routes
     path('api/', include(router.urls)),
-
+    path('api/register/', register, name='register'),
     # User Authentication & Info
-    path('api/register', register),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/myinfo', CustomerView.as_view(), name="myinfo"),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
+    path('api/customers/', CustomerListView.as_view(), name='customer_list'), 
+    path('api/customers/<int:id>/', CustomerDetailView.as_view(), name='customer_detail'),
+    path('api/customers/me/', CustomerMeView.as_view(), name='customer-me'),
 ]

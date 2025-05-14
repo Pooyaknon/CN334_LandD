@@ -11,6 +11,10 @@ class CartViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Cart.objects.filter(user=self.request.user)
 
+    def get_serializer_context(self):
+        # ส่ง request เข้าไปใน serializer context เพื่อให้เข้าถึง user
+        return {'request': self.request}
+
 class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
