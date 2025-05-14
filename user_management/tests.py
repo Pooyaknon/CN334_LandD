@@ -1,24 +1,34 @@
-from django.test import TestCase
-from user_management.models import Customer
 from django.contrib.auth.models import User
+from rest_framework import status
+from rest_framework.test import APITestCase
 
-# Create your tests here.
-
-class CustomerTestCase(TestCase):
+class UserManagementAPITestCase(APITestCase):
     def setUp(self):
-       User.objects.create_user(username="Test_user", password="12345678")
-    
-    def test_create_customer_true(self):
-        """Customer can create correctly"""
-        register_data = {"fullname":"Test", "address":"1234/12", "province":"Bangkok",
-            "post_code":"10300", "tel":"123456789"
-            }
-        
-        user = User.objects.get(username="Test_user")
-        customer = Customer(user=user, **register_data)
-        customer.save()
-        customer_dict = customer.__dict__
-        del customer_dict['_state']
-        del customer_dict['id']
-        del customer_dict['user_id']
-        self.assertEqual(customer_dict, register_data)
+        self.user = User.objects.create_user(username='testuser', password='testpass')
+
+    def test_create_user(self):
+        url = '/api/users/'
+        data = {
+            'username': 'newuser',
+            'password': 'newpass',
+            'email': 'newuser@example.com',
+            'first_name': 'New',
+            'last_name': 'User'
+        }
+
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(User.objects.count(), 2)
+        new_user = User.objects.get(username='newuser')
+        self.assertEqual(new_user.email, 'newuser@example.com')
+
+    def test_login_user(self):
+        url = '/api/token/'
+        data = {
+            'username': 'testuser',
+            'password': 'testpass'
+        }
+
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue('access' in response.data)
