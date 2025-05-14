@@ -28,7 +28,9 @@ export default function Register() {
     const payload = {
       username: formData.get('username'),
       password: formData.get('password'),
-      fullname: formData.get('fullname'),
+      firstname: formData.get('firstname'),
+      lastname: formData.get('lastname'),
+      email: formData.get('email'),
       address: formData.get('address'),
       province: formData.get('province'),
       post_code: formData.get('post_code'),
@@ -67,6 +69,107 @@ export default function Register() {
       <div className="flex flex-1 items-center flex-col gap-4 mt-2">
         <h2 className="text-3xl font-bold text-[#2C3E50] mb-2">Register</h2>
 
+      <form onSubmit={onRegister} className="flex flex-col gap-4 p-4 w-80 border rounded-lg shadow-md">
+        <div>
+          <label className="block text-xl">Username</label>
+          <input
+            name="username"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Password</label>
+          <input
+            name="password"
+            className="p-2 w-full rounded-lg border"
+            type="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Firstname</label>
+          <input
+            name="firstname"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your first name"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Lastname</label>
+          <input
+            name="lastname"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your last name"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Email</label>
+          <input
+            name="email"
+            className="p-2 w-full rounded-lg border"
+            type="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Address</label>
+          <input
+            name="address"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your address"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Province</label>
+          <input
+            name="province"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your province"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Post Code</label>
+          <input
+            name="post_code"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your post code"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xl">Phone Number</label>
+          <input
+            name="tel"
+            className="p-2 w-full rounded-lg border"
+            type="text"
+            placeholder="Enter your phone number"
+            required
+          />
+        </div>
+
+        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         <form
           onSubmit={onRegister}
           className="bg-[#2c3e50] text-white rounded-xl shadow-lg p-8 w-80 flex flex-col gap-4"
