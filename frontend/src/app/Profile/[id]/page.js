@@ -10,9 +10,6 @@ function Navbar() {
       <div className="text-4xl font-bold tracking-wide cursor-pointer" onClick={() => router.push(`/Homepage/`)}>
         Land:D
       </div>
-      <div className="text-4xl">
-        <FaUserCircle />
-      </div>
     </nav>
   );
 }
