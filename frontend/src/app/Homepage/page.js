@@ -1,25 +1,8 @@
 'use client'
 import { useEffect, useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 
-// ดึง token จาก localStorage
-// function getAuthHeaders() {
-//   if (typeof window !== 'undefined') {
-//     const token = localStorage.getItem('access_token'); // ใช้ access_token จาก localStorage
-//     if (token) {
-//       return {
-//         Authorization: `Bearer ${token}`,
-//         'Content-Type': 'application/json'
-//       };
-//     }
-//   }
-//   return {}; // คืนค่าเป็น object ว่างหากไม่มี token หรือ window
-// }
-
-// Top
 function Navbar() {
   const [categories, setCategories] = useState([]);
   const router = useRouter();
@@ -135,11 +118,8 @@ function Section({ title, lands }) {
               </div>
             ))
           ) : (
-            <p className="text-white text-lg">ไม่มีสินค้า</p>
+            <p className="text-white text-lg">ไม่มีที่ดิน</p>
           )}
-          <button className="bg-[#D4AF37] text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center self-center shrink-0">
-            <FaArrowRight />
-          </button>
         </div>
       </div>
     </section>
@@ -151,7 +131,7 @@ function FloatingCartButton() {
 
   return (
     <button
-      onClick={() => router.push("/Cart")} // ไปหน้า cart
+      onClick={() => router.push("/Cart")}
       className="fixed bottom-15 right-15 bg-[#D4AF37] text-white 
             p-10 rounded-full shadow-lg text-6xl z-50 
             flex items-center justify-center

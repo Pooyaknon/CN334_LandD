@@ -1,5 +1,4 @@
 'use client'
-import { useEffect, useState } from "react";
 import { FaUserCircle, FaCheckCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 

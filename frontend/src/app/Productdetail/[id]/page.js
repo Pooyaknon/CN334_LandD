@@ -2,10 +2,8 @@
 
 'use client'
 import { useEffect, useState } from 'react';
-import { FaUserCircle } from "react-icons/fa";
 import { useParams, useRouter } from 'next/navigation';
-import { FaArrowLeft } from 'react-icons/fa';
-import { FaShoppingCart } from "react-icons/fa";
+import { FaUserCircle, FaArrowLeft, FaShoppingCart } from 'react-icons/fa';
 
 // Navbar ไม่มีหมวดหมู่
 function Navbar() {

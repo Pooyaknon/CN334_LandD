@@ -1,26 +1,8 @@
 'use client'
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { FaUserCircle } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { FaShoppingCart } from "react-icons/fa";
+import { useRouter, useParams } from "next/navigation";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 
-function getAuthHeaders() {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
-    if (token) {
-      return {
-        'Authorization': `Token ${token}`,
-        'Content-Type': 'application/json'
-      };
-    }
-  }
-  return {
-    'Content-Type': 'application/json'
-  };
-}
-
-// Navbar
 function Navbar({ activeCategoryId }) {
   const [categories, setCategories] = useState([]);
   const router = useRouter();
@@ -61,7 +43,6 @@ function Navbar({ activeCategoryId }) {
   );
 }
 
-// การ์ดที่ดิน
 function LandCard({ land }) {
   const router = useRouter();
   return (
@@ -90,7 +71,6 @@ function LandCard({ land }) {
 
 function FloatingCartButton() {
   const router = useRouter();
-
   return (
     <button
       onClick={() => router.push("/Cart")} // ไปหน้า cart

@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
-import { fetchWithAuth } from '../utils/auth';
 
 function Navbar() {
   const router = useRouter();
@@ -132,8 +131,6 @@ export default function CartPage() {
       .then((data) => {
         alert("Checkout สำเร็จ!");
         router.push("/Payment");
-        localStorage.removeItem("cart");
-        setCartItems([]);
       })
       .catch((err) => {
         console.error("Error during checkout:", err);
