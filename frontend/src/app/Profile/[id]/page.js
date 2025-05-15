@@ -50,7 +50,7 @@ export default function CustomerProfile() {
       return;
     }
 
-    fetch(`http://localhost:8000/api/customers/${id}/`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/customers/${id}/`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

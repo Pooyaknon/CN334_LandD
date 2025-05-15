@@ -7,7 +7,7 @@ export default function AllProducts() {
   const [lands, setLands] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/lands/')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/lands/`)
       .then(res => res.json())
       .then(data => setLands(data))
   }, [])

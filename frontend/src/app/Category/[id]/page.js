@@ -8,7 +8,7 @@ function Navbar({ activeCategoryId }) {
   const router = useRouter();
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/categories/')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error("Error loading categories:", err));
@@ -128,7 +128,7 @@ export default function CategoryPage() {
 
   useEffect(() => {
     // ดึงทั้งหมด แล้ว filter ตาม category id
-    fetch('http://localhost:8000/api/lands/')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/lands/`)
       .then(res => res.json())
       .then(data => {
         const filtered = data.filter(land => String(land.category) === String(id));
@@ -137,7 +137,7 @@ export default function CategoryPage() {
       .catch(err => console.error("Error fetching lands:", err));
 
     // ดึงชื่อภาคจาก category id
-    fetch(`http://localhost:8000/api/categories/${id}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${id}/`)
       .then(res => res.json())
       .then(data => setCategoryName(data.name))
       .catch(err => console.error("Error fetching category name:", err));

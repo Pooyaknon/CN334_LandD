@@ -8,7 +8,7 @@ export default function LandDetail() {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/lands/${id}/`)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/lands/${id}/`)
         .then(res => res.json())
         .then(data => setLand(data))
     }

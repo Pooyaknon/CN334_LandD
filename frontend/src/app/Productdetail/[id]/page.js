@@ -166,7 +166,7 @@ export default function ProductDetailPage() {
   const [land, setLand] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/lands/${params.id}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/lands/${params.id}/`)
       .then(res => res.json())
       .then(data => setLand(data))
       .catch(err => console.error("Error fetching land detail:", err));
