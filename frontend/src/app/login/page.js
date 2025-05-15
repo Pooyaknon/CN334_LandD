@@ -34,7 +34,7 @@ export default function Login() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/token/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/token/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

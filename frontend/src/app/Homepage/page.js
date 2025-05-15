@@ -8,7 +8,7 @@ function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/categories/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error("Error loading categories:", err));
@@ -50,7 +50,7 @@ function Navbar() {
           }
 
           try {
-            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/customers/me/`, {
+            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/customers/me/`, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
@@ -154,7 +154,7 @@ export default function Home() {
   const [lands, setLands] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lands/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/lands/`)
       .then((res) => res.json())
       .then((data) => setLands(data))
       .catch((err) => console.error("Error fetching lands:", err));

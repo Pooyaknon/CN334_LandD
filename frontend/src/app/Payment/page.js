@@ -23,7 +23,7 @@ function Navbar() {
           }
 
           try {
-            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/customers/me/`, {
+            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/customers/me/`, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export default function PaymentPage() {
     const [deliveryMethod, setDeliveryMethod] = useState('');
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/payment-methods/`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment-methods/`)
         .then((res) => res.json())
         .then((data) => {
             const mapped = data.map((item) => ({
@@ -92,7 +92,7 @@ export default function PaymentPage() {
         })
         .catch((err) => console.error('Error fetching payment methods:', err));
 
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/delivery-methods/`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/delivery-methods/`)
         .then((res) => res.json())
         .then((data) => {
             const mapped = data.map((item) => ({

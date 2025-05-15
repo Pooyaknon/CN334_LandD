@@ -41,7 +41,7 @@ export default function Register() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/register/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

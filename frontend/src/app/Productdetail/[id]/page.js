@@ -25,7 +25,7 @@ function Navbar() {
           }
 
           try {
-            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/customers/me/`, {
+            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/customers/me/`, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
