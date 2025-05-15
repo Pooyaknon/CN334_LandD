@@ -2,6 +2,9 @@ LandD
 e-commerce web for sale Land
 This project is for study
 
+Use main branch for Docker
+Use Nathi branch for Render
+
 How to run this app 
 python manage.py runserver
 
